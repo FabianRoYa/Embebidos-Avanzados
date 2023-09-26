@@ -19,11 +19,6 @@ def on_connect(client, userdata, flags, rc):
     client.subscribe("esp32/B2")
     client.subscribe("esp32/B3")
     client.subscribe("esp32/B4")
-    #Semaforos
-    #client.subscribe("esp32/S1")
-    #client.subscribe("esp32/S2")
-    #client.subscribe("esp32/S3")
-    #client.subscribe("esp32/S4")
 
 # The callback for when a PUBLISH message is received from the server.
 def on_message(client, userdata, msg):
@@ -33,38 +28,38 @@ def on_message(client, userdata, msg):
     global S4_state
 
 #Logica para los botones 
-    if msg.topic == "esp32/B1" and msg.payload == "1":
+    if msg.topic == "esp32/B1" and msg.payload == "True":
         print("Sensor 1 activado")
         client.publish("esp32/S1", str(int(S1_state)))
 
-    elif msg.topic == "esp32/B2" and msg.payload == "1":
+    elif msg.topic == "esp32/B2" and msg.payload == "True":
         print("Sensor 2 activado")
         client.publish("esp32/S2", str(int(S2_state)))
 
-    elif msg.topic == "esp32/B3" and msg.payload == "1":
-        print("Sensor 3 activado")
-        client.publish("esp32/S3", str(int(S3_state)))
+    #elif msg.topic == "esp32/B3" and msg.payload == "1":
+    #    print("Sensor 3 activado")
+    #    client.publish("esp32/S3", str(int(S3_state)))
 
-    elif msg.topic == "esp32/B4" and msg.payload == "1":
-        print("Sensor 4 activado")
-        client.publish("esp32/S4", str(int(S4_state)))
+    #elif msg.topic == "esp32/B4" and msg.payload == "1":
+    #    print("Sensor 4 activado")
+    #    client.publish("esp32/S4", str(int(S4_state)))
 
 #Logica para el semaforo
     elif msg.topic == "esp32/S1":
-        semaphore1_state = bool(int(msg.payload))
-        print("Estado de semáforo 1:", semaphore1_state)
+        S1_state = bool(int(msg.payload))
+        print("Estado de semáforo 1:", S1_state)
 
     elif msg.topic == "esp32/S2":
-        semaphore2_state = bool(int(msg.payload))
-        print("Estado de semáforo 2:", semaphore2_state)
+        S2_state = bool(int(msg.payload))
+        print("Estado de semáforo 2:", S1_state)
 
     elif msg.topic == "esp32/S3":
-        semaphore3_state = bool(int(msg.payload))
-        print("Estado de semáforo 3:", semaphore3_state)
+        S3_state = bool(int(msg.payload))
+        print("Estado de semáforo 3:", S3_state)
 
     elif msg.topic == "esp32/S4":
-        semaphore4_state = bool(int(msg.payload))
-        print("Estado de semáforo 4:", semaphore4_state)
+        S4_state = bool(int(msg.payload))
+        print("Estado de semáforo 4:", S4_state)
 
 client = mqtt.Client()
 client.on_connect = on_connect
